@@ -43,7 +43,7 @@ components:
 
 # Create the offline installer image
 create-offline-installer:
-	./etc/stedgeai-linux-onlineinstaller --root {{docker_dir}} --offline-installer-name {{stedgeai_offline_installer}} create-offline {{stedgeai_components_full}}
+	./etc/stedgeai-linux-onlineinstaller --root {{docker_dir}} --offline-installer-name {{stedgeai_offline_installer}} create-offline -c --al --am {{stedgeai_components_full}}
 
 # Build the docker image
 image-build:
