@@ -62,6 +62,10 @@ image-ensure:
 exec *args: image-ensure
 	docker run -e HOST_GID={{gid}} -e HOST_UID={{uid}} -w /project --rm -it -v "{{cwd}}":/project {{image_name}} {{args}}
 
+# Starts a web server to display the documentation
+documentation:
+	docker run -e HOST_GID={{gid}} -e HOST_UID={{uid}} -w /project --rm -p 3000:3000 -v "{{cwd}}":/project {{image_name}} python -m http.server -d /opt/stedgeai/3.0/Documentation -b localhost 3000
+
 # Start a shell in the specified environment
 shell:
 	just exec bash
