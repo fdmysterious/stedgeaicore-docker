@@ -24,9 +24,20 @@ COPY ./stedgeai-linux-offline .
 RUN ./stedgeai-linux-offline --root /opt/stedgeai install -c --al --am stedgeai0300.base stedgeai0300.core stedgeai0300.stm32mculib stedgeai0300.stneuralart
 RUN rm /tmp/stedgeai-linux-offline
 
-RUN apt-get install -y bash
+# Install development dependencies
+RUN apt-get install -y bash cmake ninja-build
+RUN apt-get install -y wget xz-utils
 
-ENV PATH="$PATH:/opt/stedgeai/3.0/Utilities/linux"
+# Istall arm gcc toolchain from archive file
+#ADD --unpack --checksum=sha256:213b181a61be6a5eb64d21f05459a22b723585844cbb4f3e52f28994690cc612 https://developer.arm.com/-/media/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi.tar.xz /opt/arm-none-eabi
+#ADD --unpack https://developer.arm.com/-/media/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi.tar.xz /opt/arm-none-eabi
+
+RUN wget https://developer.arm.com/-/media/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi.tar.xz
+RUN tar xf /tmp/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi.tar.xz -C /opt
+RUN rm /tmp/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi.tar.xz
+
+# Configure path
+ENV PATH="$PATH:/opt/stedgeai/3.0/Utilities/linux:/opt/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi/bin"
 
 
 COPY entrypoint.sh /opt/entrypoint.sh
