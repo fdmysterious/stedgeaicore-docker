@@ -64,7 +64,7 @@ exec *args: image-ensure
 
 # Starts a web server to display the documentation
 documentation:
-	docker run -e HOST_GID={{gid}} -e HOST_UID={{uid}} -w /project --rm -it -p 3000:3000 -v "{{cwd}}":/project {{image_name}} python -m http.server -d /opt/stedgeai/3.0/Documentation 3000
+	docker run -e HOST_GID={{gid}} -e HOST_UID={{uid}} -w /project --rm -it -p 127.0.0.1:3000:3000 -v "{{cwd}}":/project {{image_name}} python -m http.server -d /opt/stedgeai/3.0/Documentation 3000
 
 # Start a shell in the specified environment
 shell:
